@@ -1,8 +1,8 @@
 <?php
-include("conn.php");
+include "conn.php";
 
-//$mail = $_REQUEST["mail"];
-$mail = "atafanii@indiatimes.com";
+$mail = $_REQUEST["mail"];
+//$mail = "atafanii@indiatimes.com";
 $query = "SELECT * FROM tasks WHERE assigner = :mail";
 $result = $pdo->prepare($query);
 $result->execute( ["mail"=> $mail]);
