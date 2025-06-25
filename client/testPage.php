@@ -1,5 +1,14 @@
 <?php
 include("conn.php");
+
+session_start();
+if (!isset($_SESSION["LoggedIn"])) {
+    $_SESSION["LoggedIn"] = true;
+}
+else{
+    echo "<script> alert('HELLLOOOO')</script>";
+    unset($_SESSION["LoggedIn"]);
+}
 ?>
 <html>
 
@@ -120,6 +129,7 @@ include("conn.php");
                 }
             })
         }
+        
     </script>
 </body>
 

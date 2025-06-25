@@ -4,6 +4,18 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 require '../vendor/autoload.php';
 
+$from = "SmartTaskTest08@gmail.com";
+$to = $_REQUEST["to"];
+$subject = $_REQUEST["subject"];
+$body = $_REQUEST["body"];
+
+try{
+    sendMail($from,$to,$subject,$body);
+}catch(Exception $e){
+    echo $e->getMessage();
+}
+
+
 function sendMail($from, $to, $subject, $body){
     $mail = new PHPMailer(true);
     $mail->IsSMTP();
@@ -34,7 +46,6 @@ function sendMail($from, $to, $subject, $body){
     $mail->MsgHTML($body);
    try{
     $mail->send();
-    echo "Mesaj Gönderimi başarılı.";
    }catch(Exception $e){
     echo $e->getMessage();
 }
