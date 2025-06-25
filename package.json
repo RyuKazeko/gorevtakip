@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "composer": "^4.1.0",
+    "jquery-ajax": "^2.1.4"
+  }
+}
