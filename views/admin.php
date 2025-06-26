@@ -44,8 +44,23 @@ $(document).ready(function () {
 
 });
 
+function reformatDate(date){
+    const options = {
+  year: 'numeric',
+  month: 'numeric',
+  day: 'numeric',
+  hour: "2-digit",
+  minute: "2-digit"
+}; 
+  return date.toLocaleDateString("tr-TR",options);
+}
+
 async function createTaskElement(taskId, task) {
     const row = document.createElement('tr');
+
+    task.dateStart = reformatDate(new Date(task.dateStart));
+    task.dateEnd = reformatDate(new Date(task.dateEnd) );
+
     row.innerHTML = `
         <td>${task.title}</td>
         <td><span class="status-badge">${task.taskStatus}</span></td>

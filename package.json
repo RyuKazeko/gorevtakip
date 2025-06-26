@@ -2,5 +2,8 @@
   "dependencies": {
     "composer": "^4.1.0",
     "jquery-ajax": "^2.1.4"
+  },
+  "devDependencies": {
+    "@event-calendar/core": "^4.4.2"
   }
 }
