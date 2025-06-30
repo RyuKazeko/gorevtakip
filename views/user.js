@@ -5,6 +5,4 @@ $(document).ready(function () {
     if (!loggedInUser || userRole !== "user") {
         window.location.href = "login.html"; // Redirect to login if not logged in
     }
-
-    // Additional user-specific JavaScript can go here
 });

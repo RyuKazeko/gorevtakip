@@ -1,0 +1,45 @@
+<div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="taskModalLabel">Yeni Görev Ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="taskForm">
+                    <div class="mb-3">
+                        <label for="taskTitle" class="form-label">Başlık</label>
+                        <input type="text" class="form-control" id="taskTitle" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="taskDescription" class="form-label">Açıklaması</label>
+                        <textarea class="form-control" id="taskDescription" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="assignedTo" class="form-label">Atanan</label>
+                        <input type="text" class="form-control" id="assignedTo" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="taskStatus" class="form-label">Durumu</label>
+                        <select class="form-select" id="taskStatus" required>
+                            <option value="Açık">Açık</option>
+                            <option value="Kapalı">Kapalı</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dateStart" class="form-label">Başlangıç Tarihi</label>
+                        <input type="date" class="form-control" id="dateStart" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dateEnd" class="form-label">Bitiş Tarihi</label>
+                        <input type="date" class="form-control" id="dateEnd">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                <button type="button" class="btn btn-primary" id="saveTaskButton">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>
