@@ -1,14 +1,14 @@
-<div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModal" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade modal-lg" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="reportModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="reportModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                <h5 class="modal-title" id="reportModalLabel">Rapor Oluştur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </button>
             </div>
             <div class="modal-body" id="reportModalBody">
-                <textarea id="reportModalInput"></textarea>
+                <textarea id="reportModalInput" class="form-control"></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
@@ -16,3 +16,53 @@
         </div>
     </div>
 </div>
+<script>
+    tinymce.init({
+        selector: 'textarea#reportModalInput',
+        height: 600,
+        plugins: 'template',
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | blocks',
+        setup: function (ed) {
+            ed.on('init', function () {
+                this.getDoc().body.style.fontSize = '12';
+                this.getDoc().body.style.fontFamily = 'Times New Roman';
+            });
+        },
+        template_mdate_format: '%m/%d/%Y : %H:%M',
+        template_replace_values: {
+            username: 'Jack Black',
+            staffid: '991234',
+            inboth_username: 'Famous Person',
+            inboth_staffid: '2213',
+        },
+        template_preview_replace_values: {
+            preview_username: 'Jack Black',
+            preview_staffid: '991234',
+            inboth_username: 'Famous Person',
+            inboth_staffid: '2213',
+        },
+        templates: [{
+            title: 'Date modified example',
+            description: 'Adds a timestamp indicating the last time the document modified.',
+            content: '<p>Last Modified: <time class="mdate">This will be replaced with the date modified.</time></p>'
+        },
+        {
+            title: 'Replace values example',
+            description: 'These values will be replaced when the template is inserted into the editor content.',
+            content: '<p>Name: {$username}, StaffID: {$staffid}</p>'
+        },
+        {
+            title: 'Replace values preview example',
+            description: 'These values are replaced in the preview, but not when inserted into the editor content.',
+            content: '<p>Name: {$preview_username}, StaffID: {$preview_staffid}</p>'
+        },
+        {
+            title: 'Replace values preview and content example',
+            description: 'These values are replaced in the preview, and in the content.',
+            content: '<p>Name: {$inboth_username}, StaffID: {$inboth_staffid}</p>'
+        }
+        ],
+        content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }'
+    });
+
+</script>

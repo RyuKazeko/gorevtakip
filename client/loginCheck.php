@@ -9,8 +9,8 @@ if (checkUserExist($pdo, $mail)) {
     $queryPass = "SELECT pass FROM users WHERE mail = :mail";
     $prepared = $pdo->prepare($queryPass);
     $prepared->execute([":mail" => $mail]);
-    $passResult= $prepared->fetch(PDO::FETCH_ASSOC);
-    if (password_verify($pass, $passResult["pass"])) {
+    $passResult = $prepared->fetch(PDO::FETCH_ASSOC);
+    if (password_verify(trim($pass), trim($passResult["pass"]))) {
         echo "vertified";
     } else {
         echo "wrong pass";

@@ -6,6 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Profili - Görev Takip</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
     <style>
@@ -16,6 +17,15 @@
 </head>
 
 <body>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"></script>
+    <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.tiny.cloud/1/0tbtlg53srz2pdpo7uuj6ao5y2f3vih3q2w6hvgmmnark1pb/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
     <div class="container mt-5">
         <h1 class="text-center">Admin Profili</h1>
         <div>
@@ -48,6 +58,30 @@
     <div id="EreportModal"></div>
 
     <script>
+        var userList = [];
+        async function fillUserList() {
+            var userListData = [];
+            await $.ajax({
+                method: "POST",
+                url: "../client/getUserList.php",
+                success: function(response) {
+                    userListData = JSON.parse(response);
+                }
+            })
+
+            var parent = document.getElementById("assignedTo");
+            var brat = document.createElement("datalist");
+            brat.setAttribute("id", "userlist");
+            userListData.forEach(function(user) {
+                var option = document.createElement("option");
+                option.value = user.mail;
+                brat.appendChild(option);
+            })
+
+
+            parent.appendChild(brat);
+        }
+
         function reformatDate(date) {
             const options = {
                 year: 'numeric',
@@ -75,13 +109,16 @@
 
                     await assignNewTask(newTask);
                     $("#taskModal").modal('hide');
-                    loadAdminTasks("garo"); // Reload the tasks
+                    loadAdminTasks("garo");
                 }
 
             );
+            fillUserList();
         });
 
-
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        });
 
         $(function() {
             $("#EaddTaskModal").load("addTaskModal.html");
@@ -102,7 +139,7 @@
         <button class="btn btn-info btn-sm" onclick="viewDetails(${taskId},'${task.title}')">Details</button>
         <button class="btn btn-danger btn-sm me-1" onclick="cancelTask(${taskId})">Sil</button>
         <button class="btn btn-success btn-sm me-1 icobutt" data-placement="bottom" data-toggle="tooltip"
-            data-placement="top" title="Tamamla" onclick="completeTask(${taskId})">
+            title="Tamamla" onclick="completeTask(${taskId})">
             &#xF26E
         </button>
     </td>

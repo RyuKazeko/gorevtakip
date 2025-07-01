@@ -1,4 +1,4 @@
-<div class="modal fade" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
+<div class="modal fade modal-lg" id="taskModal" tabindex="-1" aria-labelledby="taskModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,7 +6,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="taskForm">
+                <form id="taskForm" autocomplete="off">
                     <div class="mb-3">
                         <label for="taskTitle" class="form-label">Başlık</label>
                         <input type="text" class="form-control" id="taskTitle" required>
@@ -16,15 +16,10 @@
                         <textarea class="form-control" id="taskDescription" required></textarea>
                     </div>
                     <div class="mb-3">
+
                         <label for="assignedTo" class="form-label">Atanan</label>
-                        <input type="text" class="form-control" id="assignedTo" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="taskStatus" class="form-label">Durumu</label>
-                        <select class="form-select" id="taskStatus" required>
-                            <option value="Açık">Açık</option>
-                            <option value="Kapalı">Kapalı</option>
-                        </select>
+                        <input type="text" list="userlist" autocomplete="off" class="form-control" id="assignedTo"
+                            required>
                     </div>
                     <div class="mb-3">
                         <label for="dateStart" class="form-label">Başlangıç Tarihi</label>
@@ -43,3 +38,29 @@
         </div>
     </div>
 </div>
+<script>
+
+
+    function autocompleteMatch(input) {
+        if (input == '') {
+            return [];
+        }
+        var reg = new RegExp(input)
+        return userList.filter(function (term) {
+            if (term.match(reg)) {
+                return term;
+            }
+        });
+    }
+
+    function showResults(val) {
+        res = document.getElementById("result");
+        res.innerHTML = '';
+        let list = '';
+        let terms = autocompleteMatch(val);
+        for (i = 0; i < terms.length; i++) {
+            list += '<li>' + terms[i] + '</li>';
+        }
+        res.innerHTML = '<ul>' + list + '</ul>';
+    }
+</script>

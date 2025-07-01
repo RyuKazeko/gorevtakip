@@ -60,3 +60,4 @@ ehthumbs.db
 /.venv
 /vendor
 /calendar
+/tinymce

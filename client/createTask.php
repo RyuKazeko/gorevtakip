@@ -13,7 +13,7 @@ try {
         "assigner" => $assigner,
         "assignedTo" => $taskData["assignedTo"],
         "details" => $taskData["details"],
-        "taskStatus" => $taskData["taskStatus"],
+        "taskStatus" => "Devam etmekte",
         "dateStart" => $taskData["dateStart"],
         "dateEnd" => $taskData["dateEnd"],
     ]);
