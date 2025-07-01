@@ -8,46 +8,14 @@
     <title>Admin Profili - Görev Takip</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
-    <link rel="stylesheet" href="popper.css" />
     <style>
         .icobutt {
             font-family: 'Bootstrap-icons';
-        }
-
-        .tooltip {
-            position: relative;
-            display: inline-block;
-            border-bottom: 1px dotted black;
-        }
-
-        .tooltip .tooltiptext {
-            visibility: hidden;
-            width: 120px;
-            background-color: black;
-            color: #fff;
-            text-align: center;
-            border-radius: 6px;
-            padding: 5px 0;
-
-            /* Position the tooltip */
-            position: absolute;
-            z-index: 1;
-        }
-
-        .tooltip:hover .tooltiptext {
-            visibility: visible;
         }
     </style>
 </head>
 
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1.7.2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.7.2"></script>
-    <button id="button" aria-describedby="tooltip">My button</button>
-    <div id="tooltip" role="tooltip">
-        Tamamla
-        <div id="arrow" data-popper-arrow></div>
-    </div>
     <div class="container mt-5">
         <h1 class="text-center">Admin Profili</h1>
         <div>
@@ -56,6 +24,8 @@
 
             <div class="text-end mb-3">
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal">Ekle</button>
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal">Rapor</button>
+
             </div>
             <table class="table table-bordered">
                 <thead>
@@ -72,10 +42,10 @@
             </table>
         </div>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <div id="EaddTaskModal"></div>
     <div id="EdetailsModal"></div>
-
+    <div id="EreportModal"></div>
 
     <script>
         function reformatDate(date) {
@@ -88,9 +58,9 @@
             };
             return date.toLocaleDateString("tr-TR", options);
         }
+
         var taskCache = {};
         $(document).ready(function() {
-            $('[data-toggle="tooltip"]').tooltip();
             const adminTaskList = document.getElementById("adminTaskList");
             loadAdminTasks("garo");
             $("#saveTaskButton").on("click", async function() {
@@ -110,28 +80,33 @@
 
             );
         });
+
+
+
         $(function() {
             $("#EaddTaskModal").load("addTaskModal.html");
             $("#EdetailsModal").load("detailsModal.html");
+            $("#EreportModal").load("reportModal.html");
         });
         async function createTaskElement(taskId, task) {
             var row = document.createElement('tr');
             task.dateStart = reformatDate(new Date(task.dateStart));
             task.dateEnd = reformatDate(new Date(task.dateEnd));
-            row.innerHTML = `   
-                <td>${task.title}</td>
-                <td><span class="status-badge">${task.taskStatus}</span></td>
-                <td>${task.assignedTo}</td>
-                <td>${task.dateStart}</td>
-                <td>${task.dateEnd || '-'}</td>
-            <td>
-            <button class="btn btn-info btn-sm" onclick="viewDetails(${taskId},'${task.title}')">Details</button>
-            <button class="btn btn-danger btn-sm me-1" onclick="cancelTask(${taskId})">Sil</button>
-            <button class="btn btn-success btn-sm me-1 icobutt" data-placement="bottom" data-toggle="tooltip" data-placement="top" title="Tamamla" onclick="completeTask(${taskId})">
+            row.innerHTML = `
+    <td>${task.title}</td>
+    <td><span class="status-badge">${task.taskStatus}</span></td>
+    <td>${task.assignedTo}</td>
+    <td>${task.dateStart}</td>
+    <td>${task.dateEnd || '-'}</td>
+    <td>
+        <button class="btn btn-info btn-sm" onclick="viewDetails(${taskId},'${task.title}')">Details</button>
+        <button class="btn btn-danger btn-sm me-1" onclick="cancelTask(${taskId})">Sil</button>
+        <button class="btn btn-success btn-sm me-1 icobutt" data-placement="bottom" data-toggle="tooltip"
+            data-placement="top" title="Tamamla" onclick="completeTask(${taskId})">
             &#xF26E
-            </button>
-           </td>
-          `;
+        </button>
+    </td>
+    `;
             return row;
         }
         async function loadAdminTasks(email) {
@@ -228,7 +203,6 @@
 
         }
     </script>
-    <script src="popperCode.js"></script>
 </body>
 
 </html>
