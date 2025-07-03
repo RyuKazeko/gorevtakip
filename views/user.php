@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Profili - Görev Takip</title>
+    <title>Kullanıcı Profili - Görev Takip</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" />
@@ -17,21 +17,28 @@
 </head>
 
 <body>
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.min.css" />
+    <link rel="stylesheet"
+        href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/jquery-ui.js"></script>
     <script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.13.0.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="https://cdn.tiny.cloud/1/0tbtlg53srz2pdpo7uuj6ao5y2f3vih3q2w6hvgmmnark1pb/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.tiny.cloud/1/0tbtlg53srz2pdpo7uuj6ao5y2f3vih3q2w6hvgmmnark1pb/tinymce/7/tinymce.min.js"
+        referrerpolicy="origin"></script>
 
     <div class="container mt-5">
-        <h1 class="text-center">Admin Profili</h1>
+        <h1 class="text-center">Kullanıcı Profili</h1>
         <div>
-            <h3>Admin Paneli</h3>
-            <p>Hoş geldiniz, <?php echo $_SESSION["currentLogin"]["name"] ?>!</p>
-            <button name="cikis" class="btn btn-danger" id="logout" onClick="location.href='../client/logout.php';">ÇIKIŞ YAP</button>
+            <h3>Kullanıcı Paneli</h3>
+            <p>Hoş geldiniz,
+                <?php echo $_SESSION["currentLogin"]["name"] ?>!
+            </p>
+            <button name="cikis" class="btn btn-danger" id="logout"
+                onClick="location.href='../client/logout.php';">ÇIKIŞ YAP</button>
             <div class="text-end mb-3">
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#taskModal">Ekle</button>
                 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reportModal">Rapor</button>
@@ -48,12 +55,11 @@
                         <th>Işlemler</th>
                     </tr>
                 </thead>
-                <tbody id="adminTaskList"></tbody>
+                <tbody id="userTaskList"></tbody>
             </table>
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <div id="EaddTaskModal"></div>
     <div id="EdetailsModal"></div>
     <div id="EreportModal"></div>
 
@@ -77,8 +83,6 @@
                 option.value = user.mail;
                 brat.appendChild(option);
             })
-
-
             parent.appendChild(brat);
         }
 
@@ -100,8 +104,8 @@
                 $("#EdetailsModal").load("detailsModal.html");
                 $("#EreportModal").load("reportModal.html");
             });
-            const adminTaskList = document.getElementById("adminTaskList");
-            loadAdminTasks("garo");
+            const userTaskList = document.getElementById("userTaskList");
+            loadUserTasks("garo");
             fillUserList();
 
         });
@@ -132,12 +136,11 @@
     `;
             return row;
         }
-
-        async function loadAdminTasks(email) {
+        async function loadUserTasks(email) {
             var assignedTasks;
             await $.ajax({
                     method: "POST",
-                    url: "../client/adminTasks.php"
+                    url: "../client/userTasks.php"
                 })
                 .done(function(response) {
                     if (!response) {
@@ -147,10 +150,10 @@
                     }
                 });
 
-            adminTaskList.innerHTML = '';
+            userTaskList.innerHTML = '';
             for (var task of assignedTasks) {
                 var taskElement = await createTaskElement(task.id, task);
-                adminTaskList.appendChild(taskElement);
+                userTaskList.appendChild(taskElement);
             }
         }
 
@@ -184,7 +187,7 @@
                 },
                 success: function(response) {
                     alert(response);
-                    loadAdminTasks();
+                    loadUserTasks();
                 }
             })
         }
@@ -202,7 +205,7 @@
                     },
                     success: function(response) {
                         alert(response);
-                        loadAdminTasks();
+                        loadUserTasks();
                     }
                 })
             }

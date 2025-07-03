@@ -13,10 +13,9 @@
                     </div>
                     <div class="mb-3">
                         <label for="taskDescription" class="form-label">Açıklaması</label>
-                        <textarea class="form-control" id="taskDescription" required></textarea>
+                        <textarea class="form-control" id="taskDescription"></textarea>
                     </div>
                     <div class="mb-3">
-
                         <label for="assignedTo" class="form-label">Atanan</label>
                         <input type="text" list="userlist" autocomplete="off" class="form-control" id="assignedTo"
                             required>
@@ -40,7 +39,32 @@
 </div>
 <script>
 
-
+    tinymce.init({
+        selector: 'textarea#taskDescription',
+        language: "tr",
+        height: 300,
+        plugins: 'template',
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | blocks',
+        setup: function (ed) {
+            ed.on('init', function () {
+                this.getDoc().body.style.fontSize = '12';
+                this.getDoc().body.style.fontFamily = 'Times New Roman';
+            });
+        }
+    });
+    $("#saveTaskButton").on("click", async function () {
+        const newTask = {
+            title: $("#taskTitle").val(),
+            details: tinymce.get('taskDescription').getContent(),
+            assignedTo: $("#assignedTo").val(),
+            taskStatus: $("#taskStatus").val(),
+            dateStart: $("#dateStart").val(),
+            dateEnd: $("#dateEnd").val(),
+        };
+        await assignNewTask(newTask);
+        $("#taskModal").modal('hide');
+        loadAdminTasks("garo");
+    });
     function autocompleteMatch(input) {
         if (input == '') {
             return [];

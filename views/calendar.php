@@ -38,7 +38,6 @@
 <body>
     <header class="row">
         <h4 class="col">
-            <a href="https://github.com/vkurko/calendar">EventCalendar</a> Demo
         </h4>
         <button class="toggle-dark-button" title="Toggle dark mode" onclick="document.body.classList.toggle('ec-dark')">
             <svg class="light" focusable="false" viewBox="0 0 32 32">
@@ -65,7 +64,15 @@
         <div id="ec" class="col"></div>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script type="text/javascript" src="calendar.js"></script>
+    <!--<script type="text/javascript" src="calendar.js"></script>-->
+    <?php
+    session_start();
+    if ($_SESSION["currentLogin"]["role"] === "admin") {
+        echo " <script type='text/javascript' src='adminCalendar.js'></script>";
+    } else {
+        echo "<script type='text/javascript' src='userCalendar.js'></script>";
+    }
+    ?>
 </body>
 
 </html>

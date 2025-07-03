@@ -11,7 +11,7 @@ try {
             echo "admin.php";
             break;
         case "user":
-            echo "user.html";
+            echo "user.php";
             break;
     }
 } catch (PDOException $e) {

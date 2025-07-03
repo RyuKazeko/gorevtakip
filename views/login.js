@@ -1,25 +1,35 @@
 $(document).ready(function () {
+    $.ajax({
+        method: "POST",
+        url: "../client/checkSession.php",
+        success: function (response) {
+            if (response !== "failed") {
+                window.location.href = response;
+            }
+        }
+    })
 });
 $("#loginBtn").on("click", function () {
-        const mailField = document.getElementById("mail");
-        const passwordField = document.getElementById("password");
-        const mail = $("#mail").val();
-        const password = $("#password").val();
+    const mailField = document.getElementById("mail");
+    const passwordField = document.getElementById("password");
+    const mail = $("#mail").val();
+    const password = $("#password").val();
 
-        loginCheck(mail, password).then(response =>{
-            if(response === "vertified"){
-                createSession(mail);
-            }
-        })});
-function createSession(mail){
+    loginCheck(mail, password).then(response => {
+        if (response === "vertified") {
+            createSession(mail);
+        }
+    })
+});
+function createSession(mail) {
     return $.ajax({
         method: "POST",
         async: false,
         url: "../client/session.php",
-        data:{
+        data: {
             mail: mail
         },
-        success: function(response){
+        success: function (response) {
             window.location.href = response;
         }
     })

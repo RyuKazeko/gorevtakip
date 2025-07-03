@@ -8,4 +8,3 @@ ChatBot -- skip
 Calendar -- pending
 Dashboard -- pending
 Completion Report -- not yet
-

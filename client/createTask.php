@@ -3,7 +3,6 @@ session_start();
 include "conn.php";
 $taskData = $_REQUEST["taskData"];
 $assigner = $_SESSION["currentLogin"]["mail"];
-print_r($taskData);
 
 try {
     $query = "INSERT INTO tasks (title, assigner, assignedTo,details,taskStatus,dateStart,dateEnd) VALUES (:title, :assigner, :assignedTo, :details, :taskStatus, :dateStart, :dateEnd)";
