@@ -24,7 +24,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-    <script src="https://cdn.tiny.cloud/1/0tbtlg53srz2pdpo7uuj6ao5y2f3vih3q2w6hvgmmnark1pb/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script src="..\node_modules\tinymce\tinymce.min.js" referrerpolicy="origin"></script>
 
     <div class="container mt-5">
         <h1 class="text-center">Admin Profili</h1>
@@ -59,6 +60,7 @@
 
     <script>
         var userList = [];
+
         async function fillUserList() {
             var userListData = [];
             await $.ajax({
@@ -70,16 +72,14 @@
             })
 
             var parent = document.getElementById("assignedTo");
-            var brat = document.createElement("datalist");
-            brat.setAttribute("id", "userlist");
-            userListData.forEach(function(user) {
+            var person = document.createElement("datalist");
+            person.setAttribute("id", "userlist");
+            await userListData.forEach(function(user) {
                 var option = document.createElement("option");
                 option.value = user.mail;
-                brat.appendChild(option);
+                person.appendChild(option);
             })
-
-
-            parent.appendChild(brat);
+            parent.appendChild(person);
         }
 
         function reformatDate(date) {
@@ -169,7 +169,6 @@
 
 
         function submitReport(taskId) {
-
             completeTask(taskId)
         }
 

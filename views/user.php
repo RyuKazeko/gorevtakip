@@ -17,6 +17,8 @@
 </head>
 
 <body>
+    <script src="..\node_modules\tinymce\tinymce.min.js" referrerpolicy="origin"></script>
+
     <link rel="stylesheet"
         href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.0/css/smoothness/jquery-ui-1.10.0.custom.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -27,8 +29,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-    <script src="https://cdn.tiny.cloud/1/0tbtlg53srz2pdpo7uuj6ao5y2f3vih3q2w6hvgmmnark1pb/tinymce/7/tinymce.min.js"
-        referrerpolicy="origin"></script>
 
     <div class="container mt-5">
         <h1 class="text-center">Kullanıcı Profili</h1>
@@ -49,7 +49,7 @@
                     <tr>
                         <th>Başlık</th>
                         <th>Durum</th>
-                        <th>Atanan</th>
+                        <th>Atayan</th>
                         <th>Başlangıç Tarihi</th>
                         <th>Bitiş Tarihi</th>
                         <th>Işlemler</th>
@@ -107,7 +107,6 @@
             const userTaskList = document.getElementById("userTaskList");
             loadUserTasks("garo");
             fillUserList();
-
         });
 
         $(function() {
@@ -122,7 +121,7 @@
             row.innerHTML = `
     <td>${task.title}</td>
     <td><span class="status-badge">${task.taskStatus}</span></td>
-    <td>${task.assignedTo}</td>
+    <td>${task.assigner}</td>
     <td>${task.dateStart}</td>
     <td>${task.dateEnd || '-'}</td>
     <td>
@@ -131,7 +130,6 @@
             &#xF26E
         </button>
         <button class="btn btn-danger btn-sm me-1 icobutt" onclick="cancelTask(${taskId})">&#xF445</button>
-        
     </td>
     `;
             return row;
@@ -172,7 +170,6 @@
 
 
         function submitReport(taskId) {
-
             completeTask(taskId)
         }
 

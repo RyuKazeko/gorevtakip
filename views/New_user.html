@@ -64,7 +64,11 @@
                     user: user
                 },
                 success: function (response) {
-                    alert("IT WORGS!")
+                    if (response === "exists") {
+                        alert("Bu mail adresi sistemimize zaten kayıtlı");
+                    } else {
+                        alert(response)
+                    }
                 }
             })
 

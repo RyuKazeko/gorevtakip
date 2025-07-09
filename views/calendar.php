@@ -36,6 +36,8 @@
 </head>
 
 <body>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.18/index.global.min.js'></script>
+
     <header class="row">
         <h4 class="col">
         </h4>
@@ -62,17 +64,30 @@
     </header>
     <main class="row">
         <div id="ec" class="col"></div>
+        <div id='calendar'></div>
+
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth'
+            });
+            calendar.render();
+        });
+    </script>
     <!--<script type="text/javascript" src="calendar.js"></script>-->
-    <?php
-    session_start();
-    if ($_SESSION["currentLogin"]["role"] === "admin") {
-        echo " <script type='text/javascript' src='adminCalendar.js'></script>";
-    } else {
-        echo "<script type='text/javascript' src='userCalendar.js'></script>";
-    }
-    ?>
+    <!--   <?php
+            /*
+            session_start();
+            if ($_SESSION["currentLogin"]["role"] === "admin") {
+                echo " <script type='text/javascript' src='adminCalendar.js'></script>";
+            } else {
+                echo "<script type='text/javascript' src='userCalendar.js'></script>";
+            } */
+            ?>
+    </script>
 </body>
 
 </html>

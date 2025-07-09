@@ -2,6 +2,7 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+
 require '../vendor/autoload.php';
 
 $from = "SmartTaskTest08@gmail.com";
@@ -9,14 +10,15 @@ $to = $_REQUEST["to"];
 $subject = $_REQUEST["subject"];
 $body = $_REQUEST["body"];
 
-try{
-    sendMail($from,$to,$subject,$body);
-}catch(Exception $e){
+try {
+    sendMail($from, $to, $subject, $body);
+} catch (Exception $e) {
     echo $e->getMessage();
 }
 
 
-function sendMail($from, $to, $subject, $body){
+function sendMail($from, $to, $subject, $body)
+{
     $mail = new PHPMailer(true);
     $mail->IsSMTP();
     $mail->CharSet = 'UTF-8';
@@ -44,13 +46,11 @@ function sendMail($from, $to, $subject, $body){
     }
     $mail->isHTML(true);
     $mail->MsgHTML($body);
-   try{
-    $mail->send();
-   }catch(Exception $e){
-    echo $e->getMessage();
-}
+    try {
+        $mail->send();
+    } catch (Exception $e) {
+        echo $e->getMessage();
+    }
 }
 
 sendMail("SmartTaskTest08@gmail.com", $to, $subject, $body);
-
-?>

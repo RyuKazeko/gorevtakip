@@ -23,7 +23,7 @@
         selector: 'textarea#reportModalInput',
         language: "tr",
         height: 600,
-        plugins: 'template',
+        license_key: 'gpl',
         toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | blocks',
         setup: function (ed) {
             ed.on('init', function () {
@@ -38,14 +38,14 @@
         var report = tinymce.get('reportModalInput').getContent();
         await $.ajax({
             method: "POST",
-            async: false,
-            url: "../client/submitReport.php",
+            url: "../client/changeTaskStatus.php",
             data: {
-                taskid: taskid,
-                report: report
+                id: taskid,
+                report: report,
+                option: "tamamlandı"
             },
             success: function (response) {
-                alert("Başarılı!");
+                alert(response);
                 console.log(response);
             },
             error: function (response) {
