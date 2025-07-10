@@ -1,0 +1,712 @@
+/* Tema Değiştirme Özellikleri */
+:root {
+    /* Koyu Tema (Varsayılan) - Sitenin eski hali */
+    --bg-color: #01061a;
+    --card-bg: rgba(1, 6, 26, 0.7);
+    --card-border: #FFA500;
+    --text-color: #fff;
+    --input-bg: rgba(255, 255, 255, 0.9);
+    --primary-color: #FFA500;
+    --primary-color-rgb: 255, 165, 0;
+    --secondary-color: #FF8C00;
+    --accent-color: #FFD700;
+    --svg-opacity: 0.25;
+    --svg-stroke: #FF8C00;
+    --logo-bg: #FFA500;
+    --logo-border: #FF8C00;
+    --theme-switch-bg: rgba(1, 6, 26, 0.4);
+    --theme-switch-track: #0a1133;
+    --theme-switch-thumb: #fff;
+    --theme-switch-active: #FFA500;
+    --theme-icon-color: #fff;
+}
+
+/* Açık Tema - Bebek mavisi ve beyaz tonları */
+[data-theme="light"] {
+    --bg-color: #e6f2ff; /* Çok açık bebek mavisi arka plan */
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --card-border: #91d0ff; /* Açık bebek mavisi */
+    --text-color: #333;
+    --input-bg: #fff;
+    --primary-color: #6cb4ee; /* Bebek mavisi */
+    --primary-color-rgb: 108, 180, 238;
+    --secondary-color: #4a9fe0; /* Orta bebek mavisi */
+    --accent-color: #b6e0ff; /* Açık bebek mavisi */
+    --svg-opacity: 0.1;
+    --svg-stroke: #6cb4ee;
+    --logo-bg: rgba(108, 180, 238, 0.7); /* Saydam bebek mavisi logo arka planı */
+    --logo-border: #4a9fe0; /* Orta bebek mavisi logo kenarlığı */
+    --theme-switch-bg: rgba(200, 220, 240, 0.7);
+    --theme-switch-track: #b6e0ff;
+    --theme-switch-thumb: #fff;
+    --theme-switch-active: #6cb4ee;
+    --theme-icon-color: #333;
+}
+
+/* Tema Değiştirme Anahtarı - Yeniden Tasarlanmış */
+.theme-switch-wrapper {
+    position: fixed;
+    bottom: 20px;
+    left: -120px; /* Başlangıçta gizli, sadece ucu görünür */
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    background: var(--theme-switch-bg);
+    padding: 8px 15px;
+    border-radius: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    cursor: pointer;
+}
+
+.theme-switch-wrapper:hover, .theme-switch-wrapper.active {
+    left: 20px; /* Mouse üzerine gelince veya aktif olunca tamamen görünür */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.theme-switch-wrapper::after {
+    content: "\f053"; /* Font Awesome ok ikonu */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    position: absolute;
+    right: -15px;
+    background: var(--theme-switch-bg);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--theme-icon-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.theme-switch-wrapper.active::after {
+    transform: rotate(180deg);
+}
+
+.theme-switch {
+    display: inline-block;
+    height: 24px;
+    position: relative;
+    width: 44px;
+    margin: 0 8px;
+}
+
+.theme-switch input {
+    display: none;
+}
+
+.slider {
+    background-color: var(--theme-switch-track);
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    background-color: var(--theme-switch-thumb);
+    bottom: 3px;
+    content: "";
+    height: 18px;
+    left: 3px;
+    position: absolute;
+    transition: .4s;
+    width: 18px;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+input:checked + .slider {
+    background-color: var(--theme-switch-active);
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.theme-icon {
+    margin: 0 5px;
+    color: var(--theme-icon-color);
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+/* Tema Değişkenleri Uygulaması */
+body {
+    min-height: 100vh;
+    background: var(--bg-color);
+    font-family: 'Poppins', Arial, sans-serif;
+    padding-top: 0;
+    margin-top: 0;
+    color: var(--text-color);
+    transition: background-color 0.3s ease;
+}
+
+/* Logo stili - Tema değişkenlerini kullanacak şekilde güncellendi */
+.logo-top-left {
+    position: fixed;
+    top: 18px;
+    left: 24px;
+    z-index: 3000;
+    margin: 0;
+    padding: 12px;
+    background: var(--logo-bg);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    border: 3px solid var(--logo-border);
+    transition: all 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.logo-top-left:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+    transform: translateY(-2px);
+    background: var(--accent-color);
+}
+
+.logo-image {
+    max-width: 180px;
+    height: auto;
+    display: block;
+}
+
+/* Login Card Animation */
+.login-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    animation: fadeInCard 1.2s 0.5s both;
+    position: relative;
+    z-index: 2;
+    border: 2px solid var(--card-border);
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+@keyframes fadeInCard {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: none; }
+}
+
+/* Orange Button */
+.btn-indigo {
+    background-color: var(--primary-color) !important;
+    color: var(--bg-color) !important;
+    border: none !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    font-weight: 600;
+    padding: 12px;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
+.btn-indigo:hover, .btn-indigo:focus {
+    background-color: var(--secondary-color) !important;
+    color: #000 !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* Form Inputs */
+.login-input {
+    background: var(--input-bg) !important;
+    border: 2px solid var(--primary-color) !important;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 1rem;
+    transition: background 0.3s ease, border-color 0.3s ease;
+}
+.login-input:focus {
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1) !important;
+    transform: translateY(-2px);
+}
+
+/* Login Link */
+.login-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.login-link:hover {
+    color: var(--secondary-color);
+    text-decoration: underline;
+}
+
+/* Title */
+.title {
+    color: var(--primary-color) !important;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-family: 'Poppins', Arial, sans-serif !important;
+    transition: color 0.3s ease;
+}
+
+/* Siyah arka plan için text-muted düzeltmesi */
+.text-muted {
+    color: #ccc !important;
+}
+
+.text-light {
+    color: var(--text-color) !important;
+    transition: color 0.3s ease;
+}
+
+/* SVG Arka Plan Animasyonları */
+.theme-svg-bg {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    opacity: var(--svg-opacity);
+}
+
+.moving-fig {
+    stroke: var(--svg-stroke);
+    stroke-width: 3;
+    animation: moveAround 120s infinite linear;
+}
+
+.moving-fig2 {
+    stroke: var(--svg-stroke);
+    stroke-width: 3;
+    animation: moveAround 90s infinite linear reverse;
+}
+
+.moving-fig3 {
+    stroke: var(--svg-stroke);
+    stroke-width: 3;
+    animation: moveAround 150s infinite linear;
+}
+
+.moving-fig4 {
+    stroke: var(--svg-stroke);
+    stroke-width: 3;
+    animation: moveAround 110s infinite linear reverse;
+}
+
+.moving-fig5 {
+    stroke: var(--svg-stroke);
+    stroke-width: 3;
+    animation: moveAround 130s infinite linear;
+}
+
+.animated-sine {
+    stroke: var(--svg-stroke);
+    stroke-width: 3;
+    animation: sineWave 20s infinite ease-in-out alternate;
+}
+
+@keyframes moveAround {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(50px, 25px) rotate(90deg);
+    }
+    50% {
+        transform: translate(25px, 50px) rotate(180deg);
+    }
+    75% {
+        transform: translate(-25px, 25px) rotate(270deg);
+    }
+    100% {
+        transform: translate(0, 0) rotate(360deg);
+    }
+}
+
+@keyframes sineWave {
+    0% {
+        d: path('M0 540 Q 320 270, 640 540 T 1280 540 T 1920 540');
+    }
+    50% {
+        d: path('M0 540 Q 320 810, 640 540 T 1280 540 T 1920 540');
+    }
+    100% {
+        d: path('M0 540 Q 320 270, 640 540 T 1280 540 T 1920 540');
+    }
+}
+
+/* Particles.js için z-index değerini düşür */
+#particles-js {
+    z-index: 0 !important;
+}
+
+/* Animated SVG figures */
+.moving-fig {
+    stroke: var(--svg-stroke) !important;
+    stroke-width: 10 !important;
+    animation: moveUpDown 7s ease-in-out infinite alternate;
+    transition: stroke 0.3s ease;
+}
+@keyframes moveUpDown {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-60px); }
+    100% { transform: translateY(0); }
+}
+.moving-fig2 {
+    stroke: var(--svg-stroke) !important;
+    stroke-width: 10 !important;
+    animation: moveLeftRight 8s ease-in-out infinite alternate;
+    transition: stroke 0.3s ease;
+}
+@keyframes moveLeftRight {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(80px); }
+    100% { transform: translateX(0); }
+}
+.moving-fig3 {
+    stroke: var(--accent-color) !important;
+    stroke-width: 10 !important;
+    animation: moveDiagonal 9s ease-in-out infinite alternate;
+    transition: stroke 0.3s ease;
+}
+@keyframes moveDiagonal {
+    0% { transform: translate(0,0); }
+    50% { transform: translate(60px,-60px); }
+    100% { transform: translate(0,0); }
+}
+.moving-fig4 {
+    stroke: var(--primary-color) !important;
+    stroke-width: 10 !important;
+    animation: rotateScale 10s ease-in-out infinite alternate;
+    transition: stroke 0.3s ease;
+}
+@keyframes rotateScale {
+    0% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.15) rotate(20deg); }
+    100% { transform: scale(1) rotate(0deg); }
+}
+.moving-fig5 {
+    stroke: var(--secondary-color) !important;
+    stroke-width: 10 !important;
+    animation: zigzag 11s ease-in-out infinite alternate;
+    transition: stroke 0.3s ease;
+}
+@keyframes zigzag {
+    0% { transform: translate(0,0); }
+    20% { transform: translate(40px, -30px); }
+    40% { transform: translate(-40px, 30px); }
+    60% { transform: translate(40px, 30px); }
+    80% { transform: translate(-40px, -30px); }
+    100% { transform: translate(0,0); }
+}
+
+/* Animated Sine Wave */
+.animated-sine {
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: drawSine 3s linear forwards;
+}
+@keyframes drawSine {
+    to { stroke-dashoffset: 0; }
+}
+
+/* Success Modal Styling */
+.success-modal {
+    padding: 2rem;
+    text-align: center;
+    background: #111111;
+    border-radius: 16px;
+}
+
+.modal-content {
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(255, 165, 0, 0.3);
+    overflow: hidden;
+    border: 3px solid #FFA500;
+}
+
+.success-animation {
+    margin: 0 auto 2rem;
+    width: 100px;
+    height: 100px;
+    position: relative;
+}
+
+/* Checkmark Animation */
+.checkmark {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: block;
+    stroke-width: 2;
+    stroke: #FFA500;
+    stroke-miterlimit: 10;
+    box-shadow: inset 0px 0px 0px #FFA500;
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+    position: relative;
+    margin: 0 auto;
+}
+
+.checkmark-circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 2;
+    stroke-miterlimit: 10;
+    stroke: #FFA500;
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark-check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
+}
+
+@keyframes stroke {
+    100% {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes scale {
+    0%, 100% {
+        transform: none;
+    }
+    50% {
+        transform: scale3d(1.1, 1.1, 1);
+    }
+}
+
+@keyframes fill {
+    100% {
+        box-shadow: inset 0px 0px 0px 50px rgba(255, 165, 0, 0.2);
+    }
+}
+
+/* Başarılı Giriş Popup Stili */
+.success-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: none;
+    border: 2px solid var(--primary-color);
+    width: 400px;
+    max-width: 90%;
+    color: var(--text-color);
+}
+
+.success-popup.show {
+    display: block;
+    animation: popIn 0.5s forwards;
+}
+
+@keyframes popIn {
+    0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+    100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+
+.success-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    background: rgba(var(--primary-color-rgb), 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid var(--primary-color);
+}
+
+.success-icon svg {
+    width: 60px;
+    height: 60px;
+    fill: var(--primary-color);
+}
+
+.success-popup h2 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.success-popup p {
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+
+.success-popup .redirect-text {
+    color: var(--text-color);
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9998;
+    display: none;
+}
+
+.overlay.show {
+    display: block;
+}
+
+[data-theme="light"] .overlay {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .overlay {
+    background-color: rgba(1, 6, 26, 0.7);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .login-card {
+        margin-top: 80px;
+        padding: 30px 20px;
+    }
+}
+
+/* Google Button */
+.google-btn {
+    background-color: #fff !important;
+    color: #444 !important;
+    border: 1px solid #ddd !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    font-weight: 600;
+    padding: 12px;
+    font-size: 1.1rem;
+}
+
+[data-theme="light"] .google-btn {
+    border: 1px solid var(--primary-color) !important;
+    box-shadow: 0 2px 8px rgba(108, 180, 238, 0.2);
+}
+
+.google-btn:hover, .google-btn:focus {
+    background-color: #f8f9fa !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+[data-theme="light"] .google-btn:hover, [data-theme="light"] .google-btn:focus {
+    box-shadow: 0 4px 12px rgba(108, 180, 238, 0.25);
+}
+
+.google-btn i {
+    color: #4285F4;
+}
+
+/* Animasyon Kontrol Butonu */
+.animation-control {
+    position: fixed;
+    bottom: 70px;
+    left: -120px; /* Başlangıçta gizli, sadece ucu görünür */
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--theme-switch-bg);
+    padding: 8px 15px;
+    border-radius: 30px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    cursor: pointer;
+    width: 140px;
+}
+
+.animation-control:hover, .animation-control.active {
+    left: 20px; /* Mouse üzerine gelince veya aktif olunca tamamen görünür */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.animation-control-arrow {
+    position: absolute;
+    right: -15px;
+    background: var(--theme-switch-bg);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--theme-icon-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    z-index: 1001;
+    cursor: pointer;
+}
+
+.animation-control.active .animation-control-arrow i {
+    transform: rotate(180deg);
+}
+
+.animation-control i {
+    margin-right: 8px;
+    color: var(--theme-icon-color);
+}
+
+.animation-control span {
+    color: var(--theme-icon-color);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Tema Değiştirme Anahtarı için de aynı şekilde ok ikonunu düzenle */
+.theme-switch-arrow {
+    position: absolute;
+    right: -15px;
+    background: var(--theme-switch-bg);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--theme-icon-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    z-index: 1001;
+    cursor: pointer;
+}
+
+.theme-switch-wrapper.active .theme-switch-arrow i {
+    transform: rotate(180deg);
+}
+
+/* Eski ::after stillerini kaldır */
+.animation-control::after,
+.theme-switch-wrapper::after {
+    content: none;
+}
+
+/* Animasyon Durdurulduğunda */
+.animations-paused .moving-fig,
+.animations-paused .moving-fig2,
+.animations-paused .moving-fig3,
+.animations-paused .moving-fig4,
+.animations-paused .moving-fig5,
+.animations-paused .animated-sine {
+    animation-play-state: paused !important;
+}
+
+.animations-paused #particles-js canvas {
+    opacity: 0.3 !important;
+    transition: opacity 0.5s ease;
+} 

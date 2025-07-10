@@ -6,20 +6,443 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Giriş Yap - Görev Takip</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="login.css?v=2.0">
 </head>
 
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center">Görev Takip - Giriş Yap</h1>
-        <div id="loginContainer" class="text-center">
-            <input type="text" id="mail" placeholder="Mail adresi" class="form-control my-2" required>
-            <input type="password" id="password" placeholder="Şifre" class="form-control my-2" required>
-            <button id="loginBtn" class="btn btn-primary">Giriş Yap</button>
+    <!-- SVG ve particles arka planı -->
+    <div id="particles-js" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:1;"></div>
+    <svg class="theme-svg-bg" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Animated Sine Wave -->
+        <path class="animated-sine moving-fig" d="M0 540 Q 320 270, 640 540 T 1280 540 T 1920 540" stroke="#FFA500"
+            stroke-width="6" fill="none" />
+        <!-- Triangle -->
+        <polygon class="moving-fig2" points="300,900 500,600 700,900" stroke="#FFA500" stroke-width="5" fill="none" />
+        <!-- Circle -->
+        <circle class="moving-fig3" cx="1600" cy="300" r="120" stroke="#FFA500" stroke-width="5" fill="none" />
+        <!-- Cosine Wave -->
+        <path class="moving-fig" d="M0 700 Q 160 900, 320 700 T 640 700 T 960 700 T 1280 700 T 1600 700 T 1920 700"
+            stroke="#FFA500" stroke-width="4" fill="none" />
+        <!-- Ellipse -->
+        <ellipse class="moving-fig2" cx="1000" cy="200" rx="80" ry="40" stroke="#FFA500" stroke-width="4" fill="none" />
+        <!-- Rectangle -->
+        <rect class="moving-fig3" x="1400" y="800" width="180" height="80" rx="20" stroke="#FFA500" stroke-width="4"
+            fill="none" />
+        <!-- New Hexagon -->
+        <polygon class="moving-fig4" points="900,900 950,850 1000,900 1000,970 950,1020 900,970" stroke="#FFA500"
+            stroke-width="5" fill="none" />
+        <!-- New Star -->
+        <polygon class="moving-fig5"
+            points="400,200 420,250 475,255 435,290 445,345 400,320 355,345 365,290 325,255 380,250" stroke="#FFA500"
+            stroke-width="5" fill="none" />
+    </svg>
+
+    <!-- Logo -->
+    <div class="logo-top-left">
+        <img src="../logo-250-60.png" alt="Smart B Logo" class="logo-image">
+    </div>
+
+    <!-- Animasyon Kontrol Butonu -->
+    <div class="animation-control" id="animationControl">
+        <i class="fas fa-pause"></i>
+        <span>Animasyonu Durdur</span>
+        <div class="animation-control-arrow" id="animationControlArrow">
+            <i class="fas fa-chevron-left"></i>
         </div>
     </div>
 
+    <!-- Tema Değiştirme Anahtarı -->
+    <div class="theme-switch-wrapper" id="themeSwitcher">
+        <span class="theme-icon">
+            <i class="fas fa-moon"></i>
+        </span>
+        <label class="theme-switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider"></span>
+        </label>
+        <span class="theme-icon">
+            <i class="fas fa-sun"></i>
+        </span>
+        <div class="theme-switch-arrow" id="themeSwitcherArrow">
+            <i class="fas fa-chevron-left"></i>
+        </div>
+    </div>
+
+    <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+        <div class="row justify-content-center w-100">
+            <div class="col-md-6 col-lg-5">
+                <div class="login-card">
+                    <h2 class="text-center mb-4 title">Giriş Yap</h2>
+                    <form>
+                        <div class="mb-3">
+                            <input type="text" id="mail" placeholder="E-posta" class="form-control login-input"
+                                required>
+                        </div>
+                        <div class="mb-4">
+                            <input type="password" id="password" placeholder="Şifre" class="form-control login-input"
+                                required>
+                        </div>
+                        <button id="loginBtn" class="btn btn-indigo w-100 mb-3" type="button">GİRİŞ YAP</button>
+                        <div class="text-center mb-3">
+                            <span class="text-light">veya</span>
+                        </div>
+                        <a href="../client/google_login.php" class="btn btn-light w-100 google-btn">
+                            <i class="fab fa-google me-2"></i>Google ile Giriş Yap
+                        </a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay Arka Plan -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Başarılı Giriş Popup -->
+    <div class="success-popup" id="successPopup">
+        <div class="success-icon">
+            <svg viewBox="0 0 24 24">
+                <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"></path>
+            </svg>
+        </div>
+        <h2>Giriş Başarılı!</h2>
+        <p>Görev Takip sistemine hoş geldiniz.</p>
+        <p class="redirect-text">Yönlendiriliyorsunuz...</p>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="login.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script>
+        // Initialize particles.js
+        document.addEventListener('DOMContentLoaded', function () {
+            // Cookie işlemleri için yardımcı fonksiyonlar
+            function setCookie(name, value, days) {
+                var expires = "";
+                if (days) {
+                    var date = new Date();
+                    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                    expires = "; expires=" + date.toUTCString();
+                }
+                document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Strict";
+            }
+
+            function getCookie(name) {
+                var nameEQ = name + "=";
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+                }
+                return null;
+            }
+
+            // URL'deki hata parametresini kontrol et
+            const urlParams = new URLSearchParams(window.location.search);
+            const errorParam = urlParams.get('error');
+
+            // Hata mesajlarını göster
+            if (errorParam) {
+                let errorMessage = '';
+
+                switch (errorParam) {
+                    case 'not_registered':
+                        errorMessage = 'Bu e-posta adresi sistemde kayıtlı değil. Sadece kayıtlı kullanıcılar giriş yapabilir.';
+                        break;
+                    case 'no_code':
+                        errorMessage = 'Google kimlik doğrulama kodu alınamadı.';
+                        break;
+                    case 'registration_failed':
+                        errorMessage = 'Kullanıcı kaydı oluşturulamadı.';
+                        break;
+                    default:
+                        errorMessage = 'Bir hata oluştu.';
+                }
+
+                // Hata mesajını göster
+                alert(errorMessage);
+            }
+
+            // Animasyon kontrol butonu için tıklama olayı
+            const animationControl = document.getElementById('animationControl');
+            const animationControlArrow = document.getElementById('animationControlArrow');
+            let animationsActive = true;
+
+            if (animationControl && animationControlArrow) {
+                // Ana buton tıklama olayı
+                animationControl.addEventListener('click', function (e) {
+                    // Ok ikonuna tıklandıysa işlem yapma
+                    if (e.target.closest('.animation-control-arrow')) {
+                        return;
+                    }
+
+                    // Aktif sınıfını ekle/kaldır
+                    this.classList.toggle('active');
+
+                    // Animasyonları durdur/başlat
+                    document.body.classList.toggle('animations-paused');
+
+                    // Particles.js animasyonlarını durdur/başlat
+                    const particlesCanvas = document.querySelector('#particles-js canvas');
+                    if (particlesCanvas) {
+                        const pJsInstance = window.pJSDom && window.pJSDom[0];
+                        if (pJsInstance) {
+                            if (animationsActive) {
+                                // Animasyonları durdur
+                                pJsInstance.pJS.particles.move.enable = false;
+                                // Mevcut parçacıkları dondur
+                                pJsInstance.pJS.fn.particlesRefresh();
+                            } else {
+                                // Animasyonları başlat
+                                pJsInstance.pJS.particles.move.enable = true;
+                                // Parçacıkları yeniden başlat
+                                pJsInstance.pJS.fn.particlesRefresh();
+                            }
+                        }
+                    }
+
+                    // Buton metnini ve ikonunu güncelle
+                    animationsActive = !animationsActive;
+                    const icon = this.querySelector('i:not(.fa-chevron-left)');
+                    const text = this.querySelector('span');
+
+                    if (animationsActive) {
+                        icon.className = 'fas fa-pause';
+                        text.textContent = 'Animasyonu Durdur';
+                    } else {
+                        icon.className = 'fas fa-play';
+                        text.textContent = 'Animasyonu Başlat';
+                    }
+                });
+
+                // Ok ikonu tıklama olayı
+                animationControlArrow.addEventListener('click', function (e) {
+                    e.stopPropagation(); // Ana butona tıklama olayını engelle
+                    const parent = animationControl;
+                    parent.classList.toggle('active');
+
+                    if (parent.classList.contains('active')) {
+                        parent.style.left = '20px';
+                    } else {
+                        parent.style.left = '-120px';
+                    }
+                });
+
+                // Hover olaylarını yönet
+                animationControl.addEventListener('mouseenter', function () {
+                    if (!this.classList.contains('active')) {
+                        this.style.left = '20px';
+                    }
+                });
+
+                animationControl.addEventListener('mouseleave', function () {
+                    if (!this.classList.contains('active')) {
+                        this.style.left = '-120px';
+                    }
+                });
+            }
+
+            // Tema değiştirme butonu için tıklama olayı
+            const themeSwitcher = document.getElementById('themeSwitcher');
+            const themeSwitcherArrow = document.getElementById('themeSwitcherArrow');
+
+            if (themeSwitcher && themeSwitcherArrow) {
+                // Ana buton tıklama olayı
+                themeSwitcher.addEventListener('click', function (e) {
+                    // Ok ikonuna veya slider'a tıklandıysa işlem yapma
+                    if (e.target.closest('.theme-switch-arrow') ||
+                        e.target.classList.contains('slider') ||
+                        e.target.classList.contains('theme-switch') ||
+                        e.target.tagName === 'INPUT') {
+                        return;
+                    }
+
+                    // Aktif sınıfını ekle/kaldır
+                    this.classList.toggle('active');
+                });
+
+                // Ok ikonu tıklama olayı
+                themeSwitcherArrow.addEventListener('click', function (e) {
+                    e.stopPropagation(); // Ana butona tıklama olayını engelle
+                    const parent = themeSwitcher;
+                    parent.classList.toggle('active');
+
+                    if (parent.classList.contains('active')) {
+                        parent.style.left = '20px';
+                    } else {
+                        parent.style.left = '-120px';
+                    }
+                });
+
+                // Hover olaylarını yönet
+                themeSwitcher.addEventListener('mouseenter', function () {
+                    if (!this.classList.contains('active')) {
+                        this.style.left = '20px';
+                    }
+                });
+
+                themeSwitcher.addEventListener('mouseleave', function () {
+                    if (!this.classList.contains('active')) {
+                        this.style.left = '-120px';
+                    }
+                });
+            }
+
+            // Tema değiştirme işlevi
+            const toggleSwitch = document.querySelector('#theme-toggle');
+            const currentTheme = getCookie('theme') || localStorage.getItem('theme') || null;
+
+            // Kaydedilmiş tema varsa uygula
+            if (currentTheme) {
+                document.documentElement.setAttribute('data-theme', currentTheme);
+
+                if (currentTheme === 'light') {
+                    toggleSwitch.checked = true;
+                }
+            }
+
+            // Tema değiştirme olayını dinle
+            function switchTheme(e) {
+                if (e.target.checked) {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    localStorage.setItem('theme', 'light');
+                    setCookie('theme', 'light', 365); // 1 yıl geçerli cookie
+
+                    // Particles.js renklerini güncelle
+                    if (typeof particlesJS !== 'undefined') {
+                        particlesJS('particles-js', {
+                            "particles": {
+                                "number": { "value": 60 },
+                                "color": { "value": ["#6cb4ee", "#91d0ff", "#b6e0ff"] },
+                                "shape": { "type": "circle" },
+                                "opacity": { "value": 0.4 },
+                                "size": { "value": 6, "random": true },
+                                "move": { "enable": true, "speed": 1.5 }
+                            },
+                            "interactivity": {
+                                "events": { "onhover": { "enable": true, "mode": "repulse" } }
+                            }
+                        });
+                    }
+                } else {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    localStorage.setItem('theme', 'dark');
+                    setCookie('theme', 'dark', 365); // 1 yıl geçerli cookie
+
+                    // Particles.js renklerini güncelle
+                    if (typeof particlesJS !== 'undefined') {
+                        particlesJS('particles-js', {
+                            "particles": {
+                                "number": { "value": 60 },
+                                "color": { "value": ["#FFA500", "#FF8C00", "#FFD700"] },
+                                "shape": { "type": "circle" },
+                                "opacity": { "value": 0.4 },
+                                "size": { "value": 6, "random": true },
+                                "move": { "enable": true, "speed": 1.5 }
+                            },
+                            "interactivity": {
+                                "events": { "onhover": { "enable": true, "mode": "repulse" } }
+                            }
+                        });
+                    }
+                }
+            }
+
+            // Tema değiştirme olayını dinle
+            toggleSwitch.addEventListener('change', switchTheme, false);
+
+            // Particles.js başlat
+            if (typeof particlesJS !== 'undefined') {
+                const theme = getCookie('theme') || localStorage.getItem('theme') || 'dark';
+                const colors = theme === 'light'
+                    ? ["#6cb4ee", "#91d0ff", "#b6e0ff"]
+                    : ["#FFA500", "#FF8C00", "#FFD700"];
+
+                particlesJS('particles-js', {
+                    "particles": {
+                        "number": { "value": 60 },
+                        "color": { "value": colors },
+                        "shape": { "type": "circle" },
+                        "opacity": { "value": 0.4 },
+                        "size": { "value": 6, "random": true },
+                        "move": { "enable": true, "speed": 1.5 }
+                    },
+                    "interactivity": {
+                        "events": { "onhover": { "enable": true, "mode": "repulse" } }
+                    }
+                });
+            }
+        });
+
+        // Başarılı giriş popup'ını göster
+        function showSuccessPopup() {
+            document.getElementById('overlay').classList.add('show');
+            document.getElementById('successPopup').classList.add('show');
+        }
+
+        $(document).ready(function () {
+            // Oturum kontrolü
+            $.ajax({
+                method: "POST",
+                url: "../client/checkSession.php",
+                success: function (response) {
+                    if (response !== "failed") {
+                        window.location.href = response;
+                    }
+                }
+            });
+
+            // Login butonuna tıklama olayı
+            $("#loginBtn").on("click", function () {
+                const mail = $("#mail").val();
+                const password = $("#password").val();
+
+                // Form doğrulama
+                if (!mail || !password) {
+                    alert("Lütfen tüm alanları doldurun!");
+                    return;
+                }
+
+                // Login işlemi
+                $.ajax({
+                    method: "POST",
+                    url: "../client/loginCheck.php",
+                    data: {
+                        mail: mail,
+                        password: password
+                    },
+                    success: function (response) {
+                        if (response === "vertified") {
+                            // Oturum oluştur
+                            $.ajax({
+                                method: "POST",
+                                url: "../client/session.php",
+                                data: { mail: mail },
+                                success: function (redirectUrl) {
+                                    // Başarılı popup göster
+                                    showSuccessPopup();
+
+                                    // 2 saniye sonra yönlendir
+                                    setTimeout(function () {
+                                        window.location.href = redirectUrl;
+                                    }, 2000);
+                                }
+                            });
+                        } else if (response === "wrong pass") {
+                            alert("Yanlış şifre girdiniz.");
+                        } else if (response === "not found") {
+                            alert("Email adresiniz bulunamadı!");
+                        } else {
+                            alert("Bir hata oluştu!");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 
 </html>

@@ -25,7 +25,6 @@ switch ($option) {
         try {
             $date = date('Y/m/d h:i:s a', time());
             $report = $_REQUEST["report"];
-
             $query = "UPDATE tasks SET taskStatus=:taskStatus,dateComplete=:dateComplete, report=:report WHERE id = :id";
             $prepared = $pdo->prepare($query);
             $prepared->execute(["taskStatus" => $option, "dateComplete" => $date, "report" => $report, "id" => $id]);

@@ -6,7 +6,7 @@ if (isset($_SESSION["currentLogin"])) {
             echo "admin.php";
             break;
         case "user":
-            echo "user.html";
+            echo "user.php";
             break;
     }
 } else {

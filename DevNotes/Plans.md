@@ -4,11 +4,12 @@ Show tasks -- finished
 Add task -- finished
 Update task status -- finished
 Send Mails -- completed
-ChatBot -- skip
-Calendar -- pending
+Calendar -- updated
+Gapi Calendar -- wip
 Dashboard -- pending
-Completion Report -- not yet
+Completion Report -- needs show button
 Fix table dynamic animations -- tbd
-Fix particle and modal conflict -- tbd
-Forgot Password -- tbd
+Fix particle and modal conflict -- completed
+
+-Bugs
 BUG: Assign-autofill sometimes doesn't work on refresh --tbd

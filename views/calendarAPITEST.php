@@ -109,40 +109,25 @@
                 }
             })
         }
-        makeRpcRequest(taskList);
-
-        function makeRpcRequest(List) {
-
-            gapi
-                .client
-                .load('calendar', 'v3')
-                .then(function() {
-                    request = gapi.client.calendar.events.insert({
-                        'calendarId': "a08f0f28d06c8db1e11a9d432f61d5b4fab2233e390e3c47a7da5db083f1463f@group.calendar.google.com",
-                        'resource': List
-                    });
-
-                    request.then(function(resp) {
-
-                        if (resp.result.error) {
-                            reportError('Google Calendar API: ' + data.error.message, data.error.errors);
-                        } else {
-
-                            makeApiCall();
-                            console.log(resp);
-                            var creator = resp.result.creator.email;
-                            var calendarEntry = resp.result.htmlLink;
-
-                            console.log('--- Calendar entry successfully created by---');
-                            console.log(creator);
-                            console.log('--- dd ---');
-                            console.log(calendarEntry);
-                        }
-                    }, function(reason) {
-                        console.log('Error: ' + reason.result.error.message);
-
-                    });
-                });
+        fuckGoogleApi();
+        async function fuckGoogleApi() {
+            $.ajax({
+                method: "POST",
+                async: false,
+                url: "https://www.googleapis.com/calendar/v3/calendars/3d83ccea1093320d6b6308c5e869281252246d76f5d2f4178a41a77b6bc886a5@group.calendar.google.com/events",
+                calendarId: "3d83ccea1093320d6b6308c5e869281252246d76f5d2f4178a41a77b6bc886a5@group.calendar.google.com",
+                start: {
+                    date: "2025-07-11",
+                    timezone: "Europe/Istanbul"
+                },
+                end: {
+                    date: "2025-07-12",
+                    timezone: "Europe/Istanbul"
+                },
+                success: function(response) {
+                    alert("shiii");
+                }
+            })
         }
     </script>
 </body>
