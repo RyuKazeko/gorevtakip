@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>hello world</h1>
+    <!-- index.html -->
+    <button id="subscribe-button">Subscribe to push notifications</button>
+    <div id="notification-container"></div>
+    <script>
+        // Get the current subscription
+        navigator.serviceWorker.getRegistration().then(registration => {
+            registration.pushManager.getSubscription().then(subscription => {
+                if (subscription) {
+                    // Unsubscribe the user
+                    subscription.unsubscribe().then(() => {
+                        // Subscribe the user again with the new applicationServerKey
+                        registration.pushManager.subscribe({
+                            userVisibleOnly: true,
+                            applicationServerKey: 'BCOg7ZqqagVGVDIcfgaVOMCtXBZTj3lK6DjySq3rfPEDNVKfZs-YRqrKDqhnrF7-VkeCAtCwy9VLD8eiJrzZfKc'
+                        }).then(newSubscription => {
+                            console.log('Subscribed with new applicationServerKey:', newSubscription);
+                        });
+                    });
+                } else {
+                    // The user is not subscribed, so you can subscribe them directly
+                    registration.pushManager.subscribe({
+                        userVisibleOnly: true,
+                        applicationServerKey: 'BCOg7ZqqagVGVDIcfgaVOMCtXBZTj3lK6DjySq3rfPEDNVKfZs-YRqrKDqhnrF7-VkeCAtCwy9VLD8eiJrzZfKc'
+                    }).then(subscription => {
+                        console.log('Subscribed:', subscription);
+                    });
+                }
+            });
+        });
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js')
+                .then(registration => {
+                    console.log('Service worker registered:', registration);
+                })
+                .catch(error => {
+                    console.error('Service worker registration failed:', error);
+                });
+        }
+        const notificationContainer = document.getElementById('notification-container');
+        self.addEventListener('notificationclick', event => {
+            event.notification.close();
+            // Handle notification click event
+        });
+        const subscribeButton = document.getElementById('subscribe-button');
+        subscribeButton.addEventListener('click', async () => {
+            const registration = await navigator.serviceWorker.getRegistration();
+            const subscription = await registration.pushManager.subscribe({
+                userVisibleOnly: true,
+                applicationServerKey: 'BCOg7ZqqagVGVDIcfgaVOMCtXBZTj3lK6DjySq3rfPEDNVKfZs-YRqrKDqhnrF7-VkeCAtCwy9VLD8eiJrzZfKc'
+            });
+            console.log('Subscription:', subscription);
+            // Send subscription information to your server
+            fetch('/api/subscribe', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(subscription)
+            });
+        });
+
+    </script>
+</body>
+
+</html>

@@ -48,6 +48,7 @@
                 <thead>
                     <tr>
                         <th>Başlık</th>
+                        <th>Öncelik</th>
                         <th>Durum</th>
                         <th>Atayan</th>
                         <th>Başlangıç Tarihi</th>
@@ -120,6 +121,7 @@
             task.dateEnd = reformatDate(new Date(task.dateEnd));
             row.innerHTML = `
     <td>${task.title}</td>
+    <td>${task.priority}</td>
     <td><span class="status-badge">${task.taskStatus}</span></td>
     <td>${task.assigner}</td>
     <td>${task.dateStart}</td>
@@ -149,7 +151,10 @@
                 });
 
             userTaskList.innerHTML = '';
-            for (var task of assignedTasks) {
+            var sortedTasks = assignedTasks.slice().sort(function(a, b) {
+                return b.priority - a.priority;
+            });
+            for (var task of sortedTasks) {
                 var taskElement = await createTaskElement(task.id, task);
                 userTaskList.appendChild(taskElement);
             }

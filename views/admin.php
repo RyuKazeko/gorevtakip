@@ -14,6 +14,36 @@
         .icobutt {
             font-family: 'Bootstrap-icons';
         }
+
+        #notifiList {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background-color: #222222;
+            border: 1px solid #FFA500;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(255, 165, 0, 0.2);
+            color: #fff;
+        }
+
+        #notifiList li {
+            padding: 10px;
+            border-bottom: 1px solid #FFA500;
+        }
+
+        #notifiList li:last-child {
+            border-bottom: none;
+        }
+
+        #notifiList a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        #notifiList a:hover {
+            color: #FFA500;
+        }
     </style>
 </head>
 
@@ -43,6 +73,12 @@
         <div>
             <p class="subtitle">Hoş geldiniz, <?php echo $_SESSION["currentLogin"]["name"] ?>!</p>
             <button name="cikis" class="btn btn-indigo" id="logout" onClick="location.href='../client/logout.php';">ÇIKIŞ YAP</button>
+            <button class="btn btn-indigo dropdown-toggle" id="notifications-button" data-bs-toggle="dropdown" aria-expanded="false">Bildirimler</button>
+            <ul class="dropdown-menu" id="notifiList" aria-labelledby="notifications-button">
+                <!-- Add dropdown list items here -->
+                <li><a class="dropdown-item" href="#">Notification 1</a></li>
+                <li><a class="dropdown-item" href="#">Notification 2</a></li>
+            </ul>
             <div class="text-end mb-3">
                 <button class="btn btn-indigo me-2" data-bs-toggle="modal" data-bs-target="#taskModal">Ekle</button>
                 <div class="d-flex d-md-none justify-content-center mb-4" style="margin-top: 1cm;">
@@ -60,6 +96,7 @@
                     <tr>
                         <th>Başlık</th>
                         <th>Durum</th>
+                        <th>Öncelik</th>
                         <th>Atanan</th>
                         <th>Başlangıç Tarihi</th>
                         <th>Bitiş Tarihi</th>
@@ -84,7 +121,7 @@
     <div id="EaddTaskModal"></div>
     <div id="EdetailsModal"></div>
     <div id="EreportModal"></div>
-
+    <div id="EnotifiModal"></div>
     <script>
         var userList = [];
         var allTasks = []; // Tüm görevleri saklamak için
@@ -129,6 +166,7 @@
                 $("#EaddTaskModal").load("addTaskModal.html");
                 $("#EdetailsModal").load("detailsModal.html");
                 $("#EreportModal").load("reportModal.html");
+                $("#EnotifiModal").load("notifiModal.html");
             });
             const adminTaskList = document.getElementById("adminTaskList");
             loadAdminTasks("garo");
@@ -148,6 +186,7 @@
             row.innerHTML = `
     <td>${task.title}</td>
     <td><span class="status-badge">${task.taskStatus}</span></td>
+    <td>${task.priority}</td>
     <td>${task.assignedTo}</td>
     <td>${task.dateStart}</td>
     <td>${task.dateEnd || '-'}</td>
@@ -275,12 +314,19 @@
 
             card.innerHTML = `
                 <div class="task-card-header">${task.title}</div>
-                
+                                
+
+
                 <div class="task-card-row">
                     <div class="task-card-label">Durum:</div>
                     <div class="task-card-value"><span class="status-badge">${task.taskStatus}</span></div>
                 </div>
                 
+                <div class="task-card-row">
+                    <div class="task-card-label">Öncelik:</div>
+                    <div class="task-card-value">${task.priority}</div>
+                </div>
+
                 <div class="task-card-row">
                     <div class="task-card-label">Atanan:</div>
                     <div class="task-card-value">${task.assignedTo}</div>
@@ -368,10 +414,13 @@
             // Sayfa için görevleri hesapla
             const startIndex = (page - 1) * tasksPerPage;
             const endIndex = Math.min(startIndex + tasksPerPage, allTasks.length);
-            const pageItems = allTasks.slice(startIndex, endIndex);
+            var sortedTasks = allTasks.slice().sort(function(a, b) {
+                return b.priority - a.priority;
+            });
+            sortedTasks = allTasks.slice(startIndex, endIndex);
 
             // Görevleri ekle
-            for (var task of pageItems) {
+            for (var task of sortedTasks) {
                 // Tablo görünümü için satır oluştur
                 var taskElement = await createTaskElement(task.id, task);
                 adminTaskList.appendChild(taskElement);
@@ -380,6 +429,30 @@
                 var taskCard = await createTaskCard(task.id, task);
                 adminTaskCards.appendChild(taskCard);
             }
+        }
+        loadNotifis();
+
+        function loadNotifis() {
+            $.ajax({
+                method: "POST",
+                url: "../client/getNotifis.php",
+                success: function(response) {
+                    var notifis = JSON.parse(response);
+                    var notifiList = document.getElementById("notifiList");
+                    notifiList.innerHTML = '';
+                    for (var notifi of notifis) {
+                        var notifiElement = document.createElement("li");
+                        var notifiContent = document.createElement("a");
+                        notifiElement.className = "list-group-item";
+                        notifiContent.href = "#notifiModal";
+                        notifiContent.setAttribute("data-bs-target", "#notifiModal");
+                        notifiContent.innerHTML = notifi.title;
+                        notifiContent.setAttribute("data-bs-toggle", "modal");
+                        notifiElement.appendChild(notifiContent);
+                        notifiList.appendChild(notifiElement);
+                    }
+                }
+            });
         }
     </script>
 </body>
